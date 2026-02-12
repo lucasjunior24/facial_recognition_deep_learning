@@ -48,11 +48,6 @@ print(len(sujeitos_teste))
 sujeitos = np.asarray(sujeitos_treino, dtype=np.int32)
 sujeitos_teste = np.asarray(sujeitos_teste, dtype=np.int32)
 
-def training_model():
-  modelo_eingenfaces = cv2.face.EigenFaceRecognizer_create()
-  modelo_eingenfaces.train(dados_treinamento, sujeitos)
-  return modelo_eingenfaces
-  
 
 file_path = 'app/eigenface_model.yml'
 def save_model():
@@ -65,35 +60,7 @@ def save_model():
     print(f"Error pickling object: {e}")
 
 
-# save_model()
-# plt.figure(figsize=(20, 10))
-
-# plt.subplot(121)
-# plt.title("Sujeito " + str(sujeitos_teste[6]))
-# plt.imshow(dados_teste[6], cmap="gray")
-
-# plt.subplot(122)
-# plt.title("Sujeito " + str(sujeitos_teste[7]))
-# plt.imshow(dados_teste[7], cmap="gray")
-
-# plt.show()
-
-def load_model():
-  recognizer = cv2.face.EigenFaceRecognizer.create()
-  recognizer.read(file_path)
-  return recognizer
-
-
-# save_model()l
-
 print('carregar modelo!')
 
-model = load_model()
-print('modelo carregado!')
-
-print(dados_teste[6])
-result = model.predict(dados_teste[6])
-print(result)
-
-result = model.predict(dados_teste[7])
-print(result)
+save_model()
+print('modelo salvo!')

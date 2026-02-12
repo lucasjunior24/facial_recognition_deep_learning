@@ -1,7 +1,8 @@
 
 import cv2
 import matplotlib.pyplot as plt
-import pickle
+
+import cv2.face
 from os import listdir
 from os.path import isfile, join
 import numpy as np
@@ -52,19 +53,19 @@ def training_model():
   modelo_eingenfaces.train(dados_treinamento, sujeitos)
   return modelo_eingenfaces
   
-file_path = 'app/model_eingenfaces.pkl'
+
+file_path = 'app/eigenface_model.yml'
 def save_model():
-  model = training_model()
-
+  modelo_eingenfaces = cv2.face.EigenFaceRecognizer_create()
+  modelo_eingenfaces.train(dados_treinamento, sujeitos)
+  print()
   try:
-      with open(file_path, 'wb') as f:
-          pickle.dump(model, f)
-      print(f"Model successfully pickled to {file_path}")
-  except pickle.PicklingError as e:
-      print(f"Error pickling object: {e}")
+    modelo_eingenfaces.save(file_path)
+  except Exception as e:
+    print(f"Error pickling object: {e}")
 
 
-save_model()
+# save_model()
 # plt.figure(figsize=(20, 10))
 
 # plt.subplot(121)
@@ -78,12 +79,21 @@ save_model()
 # plt.show()
 
 def load_model():
-  with open(file_path, 'rb') as file:
-      loaded_model = pickle.load(file)
-  return loaded_model
+  recognizer = cv2.face.EigenFaceRecognizer.create()
+  recognizer.read(file_path)
+  return recognizer
+
+
+# save_model()l
+
+print('carregar modelo!')
+
+model = load_model()
 print('modelo carregado!')
 
-loaded_model = load_model()
+print(dados_teste[6])
+result = model.predict(dados_teste[6])
+print(result)
 
-result = loaded_model.predict(sujeitos_teste[6])
+result = model.predict(dados_teste[7])
 print(result)

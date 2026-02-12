@@ -1,13 +1,8 @@
-import pickle
+import cv2.face
 
-def load_model():
-  filename = 'app/model_eingenfaces.pkl'
-  with open(filename, 'rb') as file:
-      loaded_model = pickle.load(file)
-  return loaded_model
-print('modelo carregado!')
+# Create a new, empty recognizer instance
+recognizer = cv2.face.EigenFaceRecognizer.create()
 
-loaded_model = load_model()
-print(loaded_model)
+# Load the saved data from the file
+recognizer.read("eigenface_model.yml")
 
-loaded_model.predict()
